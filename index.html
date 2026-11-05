@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prueba de conexión ADCEYA</title>
+<style>
+:root{--bg:#f4f7fc;--fg:#0e2a6b;--mut:#51628a;--card:#fff;--line:#d5def0;--ok:#1f8a3a;--bad:#c62828;--btn:#1565e0}
+@media (prefers-color-scheme:dark){:root{--bg:#0b1226;--fg:#e8eefc;--mut:#9fb0d6;--card:#121c38;--line:#25345f;--ok:#58d17a;--bad:#ff7b72;--btn:#3b82f6}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,sans-serif;padding:20px 16px 40px}
+main{max-width:520px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px}
+p{color:var(--mut);margin:0 0 16px}
+button{width:100%;min-height:52px;border:0;border-radius:12px;background:var(--btn);color:#fff;font:600 17px system-ui,sans-serif}
+.t{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
+.t b{display:block;font-size:15px}
+.r{font-size:20px;font-weight:700;margin-top:4px}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+small{display:block;color:var(--mut);margin-top:4px;word-break:break-word;font-family:ui-monospace,monospace;font-size:12px}
+</style>
+</head>
+<body>
+<main>
+<h1>Prueba de conexión ADCEYA</h1>
+<p>Apaga el VPN y usa los datos móviles o el Wi-Fi normal. Toca el botón y espera unos segundos.</p>
+<button id="go">Probar ahora</button>
+<div class="t" id="t1"><b>1. Inicio de sesión (Authentication)</b><div class="r" id="r1">Sin probar</div><small id="d1"></small></div>
+<div class="t" id="t2"><b>2. Base de datos (Firestore)</b><div class="r" id="r2">Sin probar</div><small id="d2"></small></div>
+<div class="t"><b>Resultado final</b><div class="r" id="fin">Pendiente</div></div>
+</main>
+<script>
+var KEY="AIzaSyA0-IK2DbcjfG5Y_ViEUmvaq36P_bJocKA";
+function run(url,body,rid,did){
+  var r=document.getElementById(rid),d=document.getElementById(did);
+  r.className="r";r.textContent="Probando...";d.textContent="";
+  var ctl=new AbortController();var tm=setTimeout(function(){ctl.abort()},20000);
+  return fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:ctl.signal})
+  .then(function(res){return res.text().then(function(tx){clearTimeout(tm);
+    var json=false;try{JSON.parse(tx);json=true}catch(e){}
+    d.textContent="HTTP "+res.status+" · "+tx.replace(/\s+/g," ").slice(0,140);
+    if(json){r.textContent="✔ Funciona";r.className="r ok";return true}
+    r.textContent="✘ Bloqueado (respuesta de Google sin datos)";r.className="r bad";return false;});})
+  .catch(function(e){clearTimeout(tm);
+    r.textContent="✘ No conecta";r.className="r bad";
+    d.textContent=(e&&e.name==="AbortError")?"Tiempo agotado (20 s)":String(e);return false;});
+}
+document.getElementById("go").onclick=function(){
+  var f=document.getElementById("fin");f.className="r";f.textContent="Probando...";
+  run("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="+KEY,{returnSecureToken:true},"r1","d1")
+  .then(function(a){return run("https://firestore.googleapis.com/v1/projects/adceya/databases/(default)/documents:runQuery",{structuredQuery:{from:[{collectionId:"prueba"}],limit:1}},"r2","d2").then(function(b){return [a,b]})})
+  .then(function(x){
+    if(x[0]&&x[1]){f.textContent="✔ Todo funciona sin VPN";f.className="r ok"}
+    else{f.textContent="✘ Hay un bloqueo. Mándame captura de esta pantalla";f.className="r bad"}
+  });
+};
+</script>
+</body>
+</html>
