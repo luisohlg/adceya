@@ -1,7 +1,7 @@
 {
   "name": "ADCEYA",
   "short_name": "ADCEYA",
-  "description": "Inventario, ventas diarias y salarios de la tienda.",
+  "description": "Inventario, ventas diarias, cuadre y salarios de ADCEYA Taller y ADCEYA Juguetes y más.",
   "lang": "es",
   "start_url": "./index.html",
   "scope": "./",
@@ -28,5 +28,11 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "id": "./index.html",
+  "categories": [
+    "business",
+    "shopping",
+    "productivity"
   ]
 }

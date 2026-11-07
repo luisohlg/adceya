@@ -1,0 +1,7 @@
+{
+  "appId": "com.adceya.inventario",
+  "appName": "ADCEYA",
+  "webDir": "www",
+  "backgroundColor": "#F4F7FC",
+  "android": { "allowMixedContent": false }
+}

@@ -1,20 +1,2 @@
-ADCEYA - INVENTARIO (app instalable)
-
-1. Sube TODOS estos archivos juntos a un hosting gratuito con https
-   (GitHub Pages, Netlify Drop o Cloudflare Pages).
-2. Abre la direccion que te den desde Chrome en el celular.
-3. Menu (tres puntos) > "Instalar app" o "Anadir a pantalla de inicio".
-
-Una sola app con dos tiendas: ADCEYA Taller (motos y motorinas) y ADCEYA Juguetes y mas.
-- El administrador elige la tienda al entrar (y puede cambiar tocando el logo de arriba).
-- Cada cuenta de vendedor se asigna a una tienda y solo ve esa.
-- Cada tienda tiene su inventario, ventas, gastos, salarios y cuadre por separado.
-- La tasa de cambio es la misma para las dos tiendas.
-
-Los datos se guardan en el telefono donde se instale. Descarga un respaldo desde Mas de vez en cuando.
-Los respaldos de la version anterior se pueden restaurar: pasan a la tienda Taller.
-
-VERSION 1.0.1
-- Logos nuevos de las dos tiendas, banner en la pantalla de inicio e icono nuevo de la app.
-- Las fotos ahora se guardan en un almacen mas grande del telefono (ya no hay limite de ~5 MB).
-- Aviso para hacer respaldo si hace mas de 7 dias.
+ADCEYA - proyecto plano para crear la APK. Todos los archivos van en la raiz del repositorio (sin carpetas).
+Solo el archivo .github/workflows/apk.yml se edita a mano en GitHub con el contenido de apk.yml.
